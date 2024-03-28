@@ -1,2 +1,4 @@
-humidity,temperature,wind_speed
-75,25,360
+city,date,humidity,temperature,wind_speed
+tehran,2024-04-02,75,25,360
+dezful,2024-05-16,100,75,180
+ramsar,2024-06-28,125,50,300
