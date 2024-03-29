@@ -2,6 +2,7 @@ import argparse
 import csv
 import re
 import getAPI
+from prettytable import PrettyTable
 
 from weather_data_manager import WeatherCollector
 
@@ -53,9 +54,11 @@ def operation_data(data):
 
 def display_data(file_path):
     with WeatherCollector(file_path) as f:
-        csv_reader = csv.DictReader(f)
-        for row in csv_reader:
-            print(row)
+        data = [i.replace("\n","").split(",") for i in f.readlines()]
+        reader = PrettyTable(data[0])
+        for i in data[1:]:
+            reader.add_row(i)
+        print(reader)
 
 
 def search(file_path, data_type, search_key):
