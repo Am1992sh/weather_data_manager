@@ -1,19 +1,25 @@
 import argparse
 import csv
+import re
+import getAPI
 
 from weather_data_manager import WeatherCollector
 
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--file_path', help='File path', default='weather.csv')
+    parser.add_argument('--path', help='File path', default='weather.csv')
     parser.add_argument('--data_type', help='Data type', choices=['humidity', 'temperature', 'wind_speed'])
     parser.add_argument('action', help='Action to perform', choices=['min', 'max', 'average', 'search'])
     parser.add_argument('search', help='Search', nargs="?")
     args = parser.parse_args()
 
-    if args.file_path:
-        file_path = args.file_path
+    if args.path:
+        if re.match(r"http.:\/\/",args.path):
+            file_path = "temp.csv"
+            getAPI.api_to_csv(args.path,file_path)
+        else:
+            file_path = args.path
         data_type = args.data_type
         first_data = find_data(file_path, data_type)
         display_data(file_path)
@@ -38,7 +44,7 @@ def find_data(file_path, data_type):
 
 
 def operation_data(data):
-    new_list = [int(i) for i in data]
+    new_list = [float(i) for i in data]
     maximum = max(new_list)
     minimum = min(new_list)
     average = sum(new_list) / len(data)
