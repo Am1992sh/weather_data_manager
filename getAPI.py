@@ -19,4 +19,3 @@ def api_to_csv():
     return text
 
 
-print(api_to_csv())
